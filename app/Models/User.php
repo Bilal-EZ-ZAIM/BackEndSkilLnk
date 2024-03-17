@@ -18,10 +18,26 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nom',
+        'prenom',
         'email',
         'password',
     ];
+
+    // public function competonces()
+    // {
+    //     return $this->belongsToMany(Competonce::class);
+    // }
+
+    public function competonces()
+    {
+        return $this->belongsToMany(Competonce::class , 'skills_users'  ,'user_id' , 'competonce_id' );
+    }
+
+    public function project()
+    {
+        return $this->hasMany(Project::class ,'user_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
