@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commentaire;
 use App\Models\Profile;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -24,6 +24,14 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         return response()->json([ "project" => $user->project]);
+    }
+
+    public function getCommentaireUser()
+    {
+        $user = Auth::user();
+        $commenters = Commentaire::where('freelancer_id', $user->id)->with('users')->get();
+
+        return response()->json([  "user" => $commenters ]);
     }
 
     /**
