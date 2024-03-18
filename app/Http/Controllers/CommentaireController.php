@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Skills_user;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Commentaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
-class SkillsUserController extends Controller
+class CommentaireController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $skills = Skills_user::where('user_id', 8)->where('competonce_id', 22)->get();
-
-        return response()->json($skills);
+        //
     }
 
     /**
@@ -37,7 +35,9 @@ class SkillsUserController extends Controller
             $user = Auth::user();
 
             $validator = Validator::make($request->all(), [
-                'competonce_id' => 'required|integer',
+                'commentaire' => 'required|string',
+                'freelancer_id' => 'required|integer',
+
             ]);
 
 
@@ -46,27 +46,23 @@ class SkillsUserController extends Controller
             }
 
 
-            $skills = Skills_user::where('user_id', $user->id)->where('competonce_id', $request->competonce_id)->first();
 
-            if ($skills) {
-                return response()->json(['message' => 'Competonce déja crée', 'skills ' => $skills], 201);
-            }
-
-            $competons = Skills_user::create([
+            $commentaire = Commentaire::create([
                 'user_id' => $user->id,
-                'competonce_id' => $request->competonce_id
+                'commentaire' => $request->commentaire,
+                'freelancer_id'=>$request->freelancer_id
             ]);
 
-            if ($competons) {
-                return response()->json(['message' => 'Competonce créé avec succès', 'competons' => $competons], 201);
+            if ($commentaire) {
+                return response()->json(['message' => 'Commentaire créé avec succès', 'competons' => $commentaire], 201);
             }
 
-            if (!$competons) {
-                return response()->json(['message' => 'Competonce ne créé pas ', 'competons' => $competons], 403);
+            if (!$commentaire) {
+                return response()->json(['message' => 'Commentaire ne créé pas ', 'competons' => $commentaire], 403);
             }
 
 
-            return response()->json([$skills, $user]);
+            return response()->json([$commentaire]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'error' . $e->getMessage()], 500);
         }
@@ -75,7 +71,7 @@ class SkillsUserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(skills_user $skills_user)
+    public function show(Commentaire $commentaire)
     {
         //
     }
@@ -83,7 +79,7 @@ class SkillsUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(skills_user $skills_user)
+    public function edit(Commentaire $commentaire)
     {
         //
     }
@@ -91,7 +87,7 @@ class SkillsUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, skills_user $skills_user)
+    public function update(Request $request, Commentaire $commentaire)
     {
         //
     }
@@ -99,7 +95,7 @@ class SkillsUserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(skills_user $skills_user)
+    public function destroy(Commentaire $commentaire)
     {
         //
     }

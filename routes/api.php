@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SkillsUserController;
 use App\Http\Controllers\UplodImageController;
+use App\Models\Education;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +46,8 @@ Route::middleware('auth:sanctum')->get('/profile/competons', [ProfileController:
 
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'getProjectUser']);
 
+Route::middleware('auth:sanctum')->get('/profile/commentaires', [ProfileController::class, 'getCommentaireUser']);
+
 
 Route::get('images', [UplodImageController::class, 'index'])->name('images');
 Route::middleware('auth:sanctum')->post('upload/image', [UserController::class, 'upload']);
@@ -51,3 +56,7 @@ Route::middleware('auth:sanctum')->post('upload/image', [UserController::class, 
 Route::middleware('auth:sanctum')->post('ajouter/competonce', [SkillsUserController::class, 'store']);
 
 Route::middleware('auth:sanctum')->post('ajouter/project', [ProjectController::class, 'store']);
+
+Route::middleware('auth:sanctum')->post('ajouter/education', [EducationController::class, 'store']);
+
+Route::middleware('auth:sanctum')->post('ajouter/commentaire', [CommentaireController::class, 'store']);

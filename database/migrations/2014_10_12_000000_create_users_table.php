@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email')->unique()->require();
             $table->string('password')->require();
             $table->longText('discription')->nullable();
-            $table->string('type_utilisateur')->nullable();
             $table->string('informations_paiement')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('image')->nullable();

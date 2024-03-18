@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Competonce;
+use App\Models\DeveloperType;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CompetonceController extends Controller
+class DeveloperTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,27 +28,13 @@ class CompetonceController extends Controller
      */
     public function store(Request $request)
     {
-
-        $user = Auth::user();
-
-        // $check = User::with('competonces')->where('id' , 2)->get();
-
-        // $com = $user->competonces;
-
-        $check = Competonce::all();
-
-        
-
-
-        return response()->json([
-            $check
-        ]);
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Competonce $competonce)
+    public function show(DeveloperType $developerType)
     {
         //
     }
@@ -57,7 +42,7 @@ class CompetonceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Competonce $competonce)
+    public function edit(DeveloperType $developerType)
     {
         //
     }
@@ -65,7 +50,7 @@ class CompetonceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Competonce $competonce)
+    public function update(Request $request, DeveloperType $developerType)
     {
         //
     }
@@ -73,7 +58,7 @@ class CompetonceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Competonce $competonce)
+    public function destroy(DeveloperType $developerType)
     {
         //
     }
