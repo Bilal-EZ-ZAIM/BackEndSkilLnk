@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Education;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -14,16 +15,14 @@ class EducationController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+
+        $education = Education::latest()->paginate(2)->where('user_id' , $user->id);
+
+        return response()->json($education);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+  
 
     /**
      * Store a newly created resource in storage.
@@ -40,7 +39,6 @@ class EducationController extends Controller
                 'description' => 'required|string',
                 'date_debut' => 'required|date',
                 'date_fin' => 'nullable|date',
-
             ]);
 
 
@@ -68,11 +66,11 @@ class EducationController extends Controller
             ]);
 
             if ($education) {
-                return response()->json(['message' => 'Education créé avec succès', 'competons' => $education], 201);
+                return response()->json(['message' => 'Education créé avec succès', 'Education' => $education], 201);
             }
 
             if (!$education) {
-                return response()->json(['message' => 'Education ne créé pas ', 'competons' => $education], 403);
+                return response()->json(['message' => 'Education ne créé pas ', 'Education' => $education], 403);
             }
 
 

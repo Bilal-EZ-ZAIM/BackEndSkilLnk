@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DeveloperType;
+use App\Models\Status;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class DeveloperTypeController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $user = Auth::user();
-        $developerType = $user->developerType;
-
-        return response()->json($developerType);
+        //
     }
 
     /**
@@ -38,7 +34,7 @@ class DeveloperTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DeveloperType $developerType)
+    public function show(Status $status)
     {
         //
     }
@@ -46,7 +42,7 @@ class DeveloperTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DeveloperType $developerType)
+    public function edit(Status $status)
     {
         //
     }
@@ -54,7 +50,7 @@ class DeveloperTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DeveloperType $developerType)
+    public function update(Request $request, Status $status)
     {
         //
     }
@@ -62,7 +58,7 @@ class DeveloperTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DeveloperType $developerType)
+    public function destroy(Status $status)
     {
         //
     }

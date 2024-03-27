@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('informations_paiement')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('image')->nullable();
-        
             $table->rememberToken();
             $table->timestamps();
         });

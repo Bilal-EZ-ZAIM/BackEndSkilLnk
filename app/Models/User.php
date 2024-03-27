@@ -31,20 +31,25 @@ class User extends Authenticatable
 
     public function competonces()
     {
-        return $this->belongsToMany(Competonce::class , 'skills_users'  ,'user_id' , 'competonce_id' );
+        return $this->belongsToMany(Competonce::class, 'skills_users', 'user_id', 'competonce_id');
     }
 
     public function project()
     {
-        return $this->hasMany(Project::class ,'user_id');
+        return $this->hasMany(Project::class, 'user_id');
     }
 
     public function commentaires()
     {
-        return $this->hasMany(Commentaire::class ,'freelancer_id');
+        return $this->hasMany(Commentaire::class, 'freelancer_id');
     }
 
-  
+    public function developerType()
+    {
+        return $this->belongsTo(DeveloperType::class , 'developer' , 'id');
+    }
+
+
 
     /**
      * The attributes that should be hidden for serialization.

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Skills_user;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,10 +15,21 @@ class SkillsUserController extends Controller
      */
     public function index()
     {
-        $skills = Skills_user::where('user_id', 8)->where('competonce_id', 22)->get();
+        $user = Auth::user();
+
+        if ($user->role_id != 2) {
+
+            return response()->json(['message' => 'toi ne pas freelancer'], 404);
+        }
+
+
+
+        $skills = $user->competonces;
 
         return response()->json($skills);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -35,6 +47,11 @@ class SkillsUserController extends Controller
 
         try {
             $user = Auth::user();
+
+            if ($user->role_id != 2) {
+
+                return response()->json(['message' => 'toi ne pas freelancer'], 404);
+            }
 
             $validator = Validator::make($request->all(), [
                 'competonce_id' => 'required|integer',
@@ -73,34 +90,21 @@ class SkillsUserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(skills_user $skills_user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(skills_user $skills_user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, skills_user $skills_user)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(skills_user $skills_user)
+    public function destroy(Request $request)
     {
-        //
+
+        $user = Auth::user();
+
+        $skill = Skills_user::Where('competonce_id', $request->id)->where('user_id', $user->id)->first();
+
+
+
+        $suppremer = $skill->delete();
+
+        if ($suppremer) {
+            return response()->json(['message' => 'Competonce suppremer  avec succès', 'competons' => $skill], 201);
+        }
     }
 }

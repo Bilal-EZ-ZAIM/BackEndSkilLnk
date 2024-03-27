@@ -5,18 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Skills_user extends Model
+class Notificaation extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'competonce_id',
+        "messages",
+        "user_id"
     ];
-
-    
-
-
-
-   
 }

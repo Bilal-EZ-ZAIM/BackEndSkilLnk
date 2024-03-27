@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -12,17 +13,15 @@ class CommentaireController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    
+    public function getCommentaireUser()
     {
-        //
-    }
+        
+        $user = Auth::user();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $commenters = Commentaire::where('freelancer_id', $user->id)->with('users.developerType')->get();
+
+        return response()->json($commenters);
     }
 
     /**
@@ -36,8 +35,6 @@ class CommentaireController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'commentaire' => 'required|string',
-                'freelancer_id' => 'required|integer',
-
             ]);
 
 
@@ -45,12 +42,10 @@ class CommentaireController extends Controller
                 return response()->json(['error' => $validator->errors()], 422);
             }
 
-
-
             $commentaire = Commentaire::create([
                 'user_id' => $user->id,
                 'commentaire' => $request->commentaire,
-                'freelancer_id'=>$request->freelancer_id
+                'freelancer_id' => $request->id
             ]);
 
             if ($commentaire) {
@@ -66,37 +61,5 @@ class CommentaireController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'error' . $e->getMessage()], 500);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Commentaire $commentaire)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Commentaire $commentaire)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Commentaire $commentaire)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Commentaire $commentaire)
-    {
-        //
     }
 }
