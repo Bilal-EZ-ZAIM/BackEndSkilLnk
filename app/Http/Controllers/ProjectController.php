@@ -9,30 +9,33 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
-    
+
+    public function getProjectUser()
+    {
+        $user = Auth::user();
+        return response()->json($user->project);
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-
         try {
             $user = Auth::user();
+            $imageUrl = null; 
 
             $validator = Validator::make($request->all(), [
                 'titre' => 'required|string|min:3|max:30',
                 'discription' => 'required|string|min:10',
                 'link_github' => 'string',
                 'link_host' => 'string',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
             ]);
-
 
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()], 422);
             }
-
 
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -52,7 +55,6 @@ class ProjectController extends Controller
                 }
             }
 
-
             $project = Project::create([
                 'titre' => $request->titre,
                 'discription' => $request->discription,
@@ -64,18 +66,14 @@ class ProjectController extends Controller
 
             if ($project) {
                 return response()->json(['message' => 'Project créé avec succès', 'competons' => $project], 201);
-            }
-
-            if (!$project) {
+            } else {
                 return response()->json(['message' => 'Projectne créé pas ', 'competons' => $project], 403);
             }
-
-
-            return response()->json([$project, $user]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'error' . $e->getMessage()], 500);
         }
     }
+
 
     /**
      * Display the specified resource.

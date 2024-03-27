@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Competonce;
-use App\Models\skills_user;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -13,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
-    public function getAllUser(Request $request)
+    public function getAllUser()
     {
         $user = User::with('competonces')->latest()->get();
 
@@ -21,6 +19,8 @@ class UserController extends Controller
             'users' => $user 
         ], 200);
     }
+
+    
 
     // crée un neveu user 
     public function regester(Request $request)
@@ -67,7 +67,6 @@ class UserController extends Controller
 
             if ($validator->fails()) {
                 return response()->json([
-                    'message' => 'Validation error',
                     'errors' => $validator->errors()
                 ], 422);
             }
@@ -128,7 +127,6 @@ class UserController extends Controller
             $user = User::where('email', $request->email)->first();
 
             if ($user && password_verify($credentials['password'], $user->password)) {
-
 
                 Auth::login($user);
 

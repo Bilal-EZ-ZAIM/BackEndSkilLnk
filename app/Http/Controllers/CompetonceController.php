@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Competonce;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CompetonceController extends Controller
 {
@@ -13,7 +14,15 @@ class CompetonceController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+
+        $competences = DB::table('competonces')->select('id', 'name')->get();
+
+        return response()->json($competences);
     }
 
     /**
@@ -32,14 +41,7 @@ class CompetonceController extends Controller
 
         $user = Auth::user();
 
-        // $check = User::with('competonces')->where('id' , 2)->get();
-
-        // $com = $user->competonces;
-
         $check = Competonce::all();
-
-        
-
 
         return response()->json([
             $check
@@ -75,6 +77,5 @@ class CompetonceController extends Controller
      */
     public function destroy(Competonce $competonce)
     {
-        //
     }
 }
